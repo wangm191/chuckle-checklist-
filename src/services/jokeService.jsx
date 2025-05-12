@@ -23,7 +23,6 @@ export const addJoke = async (newJokeText) => {
     if (responce) {
         console.log("Added Joke!")
     }
-    return await responce.json()
 }
 
 export const updateJokeStatus = async (jokeId) => {
@@ -42,5 +41,21 @@ export const updateJokeStatus = async (jokeId) => {
     if (response) {
         console.log(`Joke Status Updated: ${joke.told}`)
     }
-    return await response.json()
+}
+
+export const deleteJoke = async (jokeId) => {
+    const joke = await fetch(`http://localhost:8088/jokes/${jokeId}`)
+    .then((res) => res.json())
+
+    const response = await fetch(`http://localhost:8088/jokes/${jokeId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(joke)
+      });
+
+    if (response) {
+        console.log(`Joke Deleted.`)
+    }
 }

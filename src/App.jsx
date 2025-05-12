@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { addJoke, getAllJokes, updateJokeStatus } from "./services/jokeService";
+import { addJoke, getAllJokes, updateJokeStatus, deleteJoke } from "./services/jokeService";
 import "./App.css"
 
 export const App = () => {
@@ -44,6 +44,10 @@ export const App = () => {
     await updateJokeStatus(jokeId)
   }
 
+  const handleDeleteJoke = async (jokeId) => {
+    await deleteJoke(jokeId)
+  }
+
   return <div className="app-container">
     <div className="app-heading"> 
       {/* Header */}
@@ -83,6 +87,11 @@ export const App = () => {
               return (
                 <li className="joke-list-item" key={joke.id}>
                   <p className="joke-list-item-text">{joke.text}</p>
+                  <button className="joke-list-action-delete"
+                    onClick={() => {
+                      handleDeleteJoke(joke.id)
+                    }}
+                  ><i className="fa-regular fa-trash-can"></i></button>
                   <button className="joke-list-action-toggle"
                     onClick={() => {
                       handleUpdateJokeStatus(joke.id)
@@ -104,6 +113,11 @@ export const App = () => {
               return (
                 <li className="joke-list-item" key={joke.id}>
                   <p className="joke-list-item-text">{joke.text}</p>
+                  <button className="joke-list-action-delete"
+                    onClick={() => {
+                      handleDeleteJoke(joke.id)
+                    }}
+                  ><i className="fa-regular fa-trash-can"></i></button>
                   <button className="joke-list-action-toggle"
                     onClick={() => {
                       handleUpdateJokeStatus(joke.id)
