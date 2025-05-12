@@ -1,5 +1,5 @@
-import { use, useEffect, useState } from "react";
-import { addJoke, getAllJokes } from "./services/jokeService";
+import { useEffect, useState } from "react";
+import { addJoke, getAllJokes, updateJokeStatus } from "./services/jokeService";
 import "./App.css"
 
 export const App = () => {
@@ -40,6 +40,10 @@ export const App = () => {
     setNewJokeText('')
   }
 
+  const handleUpdateJokeStatus = async (jokeId) => {
+    await updateJokeStatus(jokeId)
+  }
+
   return <div className="app-container">
     <div className="app-heading"> 
       {/* Header */}
@@ -62,7 +66,7 @@ export const App = () => {
         <button className="joke-input-submit"
           onClick={() => {
             handleAddJoke()
-            console.log("Clicked Button!")
+            console.log("Clicked Add Button!")
           }}
           >Add 
         </button>
@@ -73,12 +77,17 @@ export const App = () => {
             <span className="untold-count">
             {untoldJokes.length}
             </span>
-            Untold</h2>
+            <i className="fa-regular fa-face-meh"/> Untold</h2>
           <article>
             {untoldJokes.map(joke => {
               return (
                 <li className="joke-list-item" key={joke.id}>
                   <p className="joke-list-item-text">{joke.text}</p>
+                  <button className="joke-list-action-toggle"
+                    onClick={() => {
+                      handleUpdateJokeStatus(joke.id)
+                      }}
+                  ><i className="fa-regular fa-face-laugh-squint"/></button>
                 </li>
               )  
             })}
@@ -88,12 +97,18 @@ export const App = () => {
           <h2>
           <span className="told-count">
             {toldJokes.length}
-          </span>Told</h2>
+          </span>
+          <i className="fa-regular fa-face-laugh-squint"/> Told</h2>
           <article>
             {toldJokes.map(joke => {
               return (
                 <li className="joke-list-item" key={joke.id}>
                   <p className="joke-list-item-text">{joke.text}</p>
+                  <button className="joke-list-action-toggle"
+                    onClick={() => {
+                      handleUpdateJokeStatus(joke.id)
+                      }}
+                    ><i className="fa-regular fa-face-meh"/></button>
                 </li>
               )  
             })}
